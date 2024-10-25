@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Color Palette Generator</h1>
+        <div class="input-section">
+            <label for="imageUpload" class="input-label">Choose an image</label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+
+        <div class="mood-section">
+            <label for="moodSelector" class="input-label">Select Mood</label>
+            <select id="moodSelector"></select>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="imageCanvas"></canvas>
+        </div>
+
+        <div class="download-section">
+            <button id="downloadBtn">Downlaod</button>
+        </div>
+    </div>
+
+    <script src="colorsExtractor.js"></script>
+    <script src="paletteDrawer.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
