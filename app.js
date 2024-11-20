@@ -39,6 +39,7 @@ function setOnChangeListeners() {
 
 async function imageOrMoodOnChange() {
     elemets.downloadSection.classList.remove('hidden');
+    elemets.imageCanvas.parentElement.classList.remove('hidden');
     try {
         await loadImageAsimageCanvas();
     } catch (e) {
