@@ -1,7 +1,13 @@
+@font-face {
+    font-family: 'AdobeClean';
+    src: url('./fonts/AdobeClean-Regular.ttf');
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'AdobeClean';
 }
 
 body {
