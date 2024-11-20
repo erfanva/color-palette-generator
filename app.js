@@ -100,10 +100,10 @@ function rgbToHex(rgb) {
 
 function setDownloadBtnOnClick() {
     const jpegQuality = 1.0; // max
-    const mainFileName = elemets.imageUpload.files[0].name;
-    const fileName = `palette_${mainFileName}.jpg`;
 
     elemets.downloadBtn.addEventListener('click', () => {
+        const mainFileName = elemets.imageUpload?.files[0]?.name || '';
+        const fileName = `palette_${mainFileName}.jpg`;
         const canvas = elemets.imageCanvas;
         const link = document.createElement('a');
         link.download = fileName;
