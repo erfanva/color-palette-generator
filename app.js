@@ -17,6 +17,8 @@ function setElements() {
     elemets.imageUpload = imageUpload;
     const imageCanvas = document.querySelector('#imageCanvas');
     elemets.imageCanvas = imageCanvas;
+    const downloadSection = document.querySelector('.download-section');
+    elemets.downloadSection = downloadSection;
     const downloadBtn = document.querySelector('#downloadBtn');
     elemets.downloadBtn = downloadBtn;
 }
@@ -36,6 +38,7 @@ function setOnChangeListeners() {
 }
 
 async function imageOrMoodOnChange() {
+    elemets.downloadSection.classList.remove('hidden');
     try {
         await loadImageAsimageCanvas();
     } catch (e) {

@@ -83,3 +83,7 @@ canvas {
 #downloadBtn:hover {
     background-color: #555;
 }
+
+.hidden {
+    display: none;
+}
