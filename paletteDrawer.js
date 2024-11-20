@@ -15,8 +15,6 @@ function drawPaletteBox(ctx, colors_count) {
     const image_width = ctx.width;
     const box_left_margin = (image_width - box_width) / 2;
 
-    console.log(box_width, image_width, box_left_margin)
-
     ctx.fillRect(box_left_margin, box_top_margin, box_width, box_height);
 }
 
