@@ -27,7 +27,7 @@ function fillMoodSelector() {
     MOODS.forEach(mood => {
         const moodOpt = document.createElement('option');
         moodOpt.value = mood;
-        moodOpt.innerText = mood.toLowerCase();
+        moodOpt.innerText = mood[0] + mood.slice(1).toLowerCase();
         elemets.moodSelector.appendChild(moodOpt);
     })
 }
