@@ -47,6 +47,7 @@ async function imageOrMoodOnChange() {
         return;
     }
     const hexColors = getColors();
+    console.log(hexColors)
 
     let ctx = elemets.imageCanvas.getContext('2d');
     ctx.width = elemets.imageCanvas.width;
@@ -79,6 +80,7 @@ function getColors() {
     const colorMood = getMood();
 
     const result = extractColorFromImage(imageData, width, height, SWATCH_COUNT, colorMood);
+    console.log(result.finalColor)
     return convertColorsToHex(result.finalColor);
 }
 
@@ -100,7 +102,7 @@ function rgbToHex(rgb) {
     res |= Math.round(255 * rgb.r) << 16;
     res |= Math.round(255 * rgb.g) << 8;
     res |= Math.round(255 * rgb.b);
-    return '#' + res.toString(16);
+    return '#' + (0x1000000 + res).toString(16).slice(1);
 }
 
 function setDownloadBtnOnClick() {
