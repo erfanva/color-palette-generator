@@ -80,7 +80,7 @@ canvas {
     /* Remove extra space below the canvas */
 }
 
-#downloadBtn {
+.btn {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #333;

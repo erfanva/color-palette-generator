@@ -9,6 +9,16 @@ const config = {
 }
 let padding, box_height, square_size, box_top_margin;
 
+async function drawPaletteOnCanvas(imageCanvas, colors) {
+    const ctx = imageCanvas.getContext('2d');
+    ctx.width = imageCanvas.width;
+    ctx.height = imageCanvas.height;
+
+    updateParams(ctx);
+    drawPaletteBox(ctx, colors.length);
+    drawColors(ctx, colors);
+}
+
 function updateParams(ctx) {
     let ratioToRefrence = ctx.width / refrence_width;
     if (ctx.width > ctx.height) {
@@ -18,12 +28,6 @@ function updateParams(ctx) {
     box_height = Math.floor(config.box_height * ratioToRefrence);
     square_size = Math.floor(config.square_size * ratioToRefrence);
     box_top_margin = Math.floor(config.box_top_margin * ctx.height / refrence_height);
-}
-
-async function drawPaletteOnCanvas(ctx, colors) {
-    updateParams(ctx);
-    drawPaletteBox(ctx, colors.length);
-    drawColors(ctx, colors);
 }
 
 function drawPaletteBox(ctx, colors_count) {

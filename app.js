@@ -17,10 +17,14 @@ function setElements() {
     elemets.imageUpload = imageUpload;
     const imageCanvas = document.querySelector('#imageCanvas');
     elemets.imageCanvas = imageCanvas;
+    const storyCanvas = document.querySelector('#storyCanvas');
+    elemets.storyCanvas = storyCanvas;
     const downloadSection = document.querySelector('.download-section');
     elemets.downloadSection = downloadSection;
     const downloadBtn = document.querySelector('#downloadBtn');
     elemets.downloadBtn = downloadBtn;
+    const saveStoryBtn = document.querySelector('#saveStoryBtn');
+    elemets.saveStoryBtn = saveStoryBtn;
 }
 
 function fillMoodSelector() {
@@ -48,12 +52,8 @@ async function imageOrMoodOnChange() {
     }
     const hexColors = getColors();
     console.log(hexColors)
-
-    let ctx = elemets.imageCanvas.getContext('2d');
-    ctx.width = elemets.imageCanvas.width;
-    ctx.height = elemets.imageCanvas.height;
-    drawPaletteOnCanvas(ctx, hexColors);
-    // drawColorPage(ctx, "#203b43");
+    drawPaletteOnCanvas(elemets.imageCanvas, hexColors);
+    drawStory(elemets.storyCanvas, hexColors);
 }
 
 function loadImageAsimageCanvas() {
@@ -106,18 +106,20 @@ function rgbToHex(rgb) {
 }
 
 function setDownloadBtnOnClick() {
-    elemets.downloadBtn.addEventListener('click', downloadWhatIsInCanvas);
+    elemets.downloadBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.imageCanvas));
+    elemets.saveStoryBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.storyCanvas));
 }
 
-function downloadWhatIsInCanvas() {
-    const jpegQuality = 1.0; // max
-    const mainFileName = getFileNameWithoutPrefix();
-    const fileName = `palette_${mainFileName}.jpg`;
-    const canvas = elemets.imageCanvas;
-    const link = document.createElement('a');
-    link.download = fileName;
-    link.href = canvas.toDataURL("image/jpeg", jpegQuality);
-    link.click();
+function downloadWhatIsInCanvas(canvasElement) {
+    return function () {
+        const jpegQuality = 1.0; // max
+        const mainFileName = getFileNameWithoutPrefix();
+        const fileName = `palette_${mainFileName}.jpg`;
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = canvasElement.toDataURL("image/jpeg", jpegQuality);
+        link.click();
+    }
 }
 
 function getFileNameWithoutPrefix() {
