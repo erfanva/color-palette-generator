@@ -109,13 +109,21 @@ function setDownloadBtnOnClick() {
 
 function downloadWhatIsInCanvas() {
     const jpegQuality = 1.0; // max
-    const mainFileName = elemets.imageUpload?.files[0]?.name || '';
+    const mainFileName = getFileNameWithoutPrefix();
     const fileName = `palette_${mainFileName}.jpg`;
     const canvas = elemets.imageCanvas;
     const link = document.createElement('a');
     link.download = fileName;
     link.href = canvas.toDataURL("image/jpeg", jpegQuality);
     link.click();
+}
+
+function getFileNameWithoutPrefix() {
+    let fileName = elemets.imageUpload?.files[0]?.name || '';
+    fileName = fileName.split('.');
+    fileName.splice(fileName.length - 1, 1);
+    fileName = fileName.join('');
+    return fileName;
 }
 
 documentOnLoad()
