@@ -88,23 +88,6 @@ function getMood() {
     return elemets.moodSelector.value;
 }
 
-function convertColorsToHex(finalColors) {
-    let hexColors = [];
-    for (let i = 0; i < finalColors.length; i++) {
-        const hex = rgbToHex(finalColors[i].rgb);
-        hexColors.push(hex);
-    }
-    return hexColors;
-}
-
-function rgbToHex(rgb) {
-    let res = 0;
-    res |= Math.round(255 * rgb.r) << 16;
-    res |= Math.round(255 * rgb.g) << 8;
-    res |= Math.round(255 * rgb.b);
-    return '#' + (0x1000000 + res).toString(16).slice(1);
-}
-
 function setDownloadBtnOnClick() {
     elemets.downloadBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.imageCanvas));
     elemets.saveStoryBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.storyCanvas));
