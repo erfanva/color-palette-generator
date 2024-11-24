@@ -1,4 +1,4 @@
-const MOODS = ["COLORFUL", "BRIGHT", "MUTED", "DEEP", "DARK", "CUSTOM"];
+const MOODS = ["COLORFUL", "BRIGHT", "MUTED", "DEEP", "DARK"];
 const SWATCH_COUNT = 5;
 
 let elemets = {};
