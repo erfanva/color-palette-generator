@@ -8,6 +8,7 @@
     margin: 0;
     padding: 0;
     font-family: 'AdobeClean';
+    transition: all 0.3s;
 }
 
 body {
@@ -64,6 +65,37 @@ select {
 
 select {
     cursor: pointer;
+}
+
+.colors-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-box {
+    cursor: pointer;
+    flex: 1;
+    padding: 10px 0;
+    color: black;
+    overflow: hidden;
+}
+
+.color-box.dark {
+    color: white;
+}
+
+.color-box:hover {
+    flex: 2;
+}
+
+.color-box * {
+    opacity: 0;
+}
+
+.color-box:hover * {
+    opacity: 1;
 }
 
 .canvas-container {

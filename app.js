@@ -15,6 +15,8 @@ function setElements() {
     elemets.moodSelector = moodSelector;
     const imageUpload = document.querySelector('#imageUpload');
     elemets.imageUpload = imageUpload;
+
+    elemets.colorsContainer = document.querySelector('.colors-container');
     const imageCanvas = document.querySelector('#imageCanvas');
     elemets.imageCanvas = imageCanvas;
     const storyCanvas = document.querySelector('#storyCanvas');
@@ -42,8 +44,6 @@ function setOnChangeListeners() {
 }
 
 async function imageOrMoodOnChange() {
-    elemets.downloadSection.classList.remove('hidden');
-    elemets.imageCanvas.parentElement.classList.remove('hidden');
     try {
         await loadImageAsimageCanvas();
     } catch (e) {
@@ -52,8 +52,14 @@ async function imageOrMoodOnChange() {
     }
     const hexColors = getColors();
     console.log(hexColors)
+
     drawPaletteOnCanvas(elemets.imageCanvas, hexColors);
     drawStory(elemets.storyCanvas, hexColors);
+    fillColorsContainer(hexColors);
+
+    elemets.downloadSection.classList.remove('hidden');
+    elemets.imageCanvas.parentElement.classList.remove('hidden');
+    elemets.colorsContainer.classList.remove('hidden');
 }
 
 function loadImageAsimageCanvas() {
@@ -111,6 +117,25 @@ function getFileNameWithoutPrefix() {
     fileName.splice(fileName.length - 1, 1);
     fileName = fileName.join('');
     return fileName;
+}
+
+function fillColorsContainer(hexColors) {
+    elemets.colorsContainer.innerHTML = "";
+    hexColors.forEach(color => {
+        const section = document.createElement("div");
+        section.classList.add("color-box");
+        if (isDark(color))
+            section.classList.add("dark");
+        section.style.backgroundColor = color;
+
+        section.addEventListener('click', () => navigator.clipboard.writeText(color));
+
+        const textElem = document.createElement("span");
+        textElem.textContent = color.toUpperCase();
+        section.appendChild(textElem);
+
+        elemets.colorsContainer.appendChild(section);
+    });
 }
 
 documentOnLoad()
