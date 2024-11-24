@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 56vh;
+            height: 100vh;
+            /* Maintain a 16:9 aspect ratio */
+            /* aspect-ratio: 16 / 9; */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .color1 {
+            background-color: #013A40;
+            color: #ffffff;
+        }
+
+        .color2 {
+            background-color: #BFD6D9;
+        }
+
+        .color3 {
+            background-color: #F2B705;
+        }
+
+        .color4 {
+            background-color: #F2AE2E;
+        }
+
+        .color5 {
+            background-color: #F28B30;
+        }
+
+        /* Assigning percentage height */
+        .color1 {
+            flex: 20%;
+        }
+
+        .color2 {
+            flex: 20%;
+        }
+
+        .color3 {
+            flex: 20%;
+        }
+
+        .color4 {
+            flex: 20%;
+        }
+
+        .color5 {
+            flex: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="color-section color1">#013A40</div>
+        <div class="color-section color2">#BFD6D9</div>
+        <div class="color-section color3">#F2B705</div>
+        <div class="color-section color4">#F2AE2E</div>
+        <div class="color-section color5">#F28B30</div>
+    </div>
+</body>
+
+</html>
