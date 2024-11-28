@@ -45,8 +45,9 @@ function setOnChangeListeners() {
 
 async function imageOrMoodOnChange() {
     try {
-        await loadImageAsimageCanvas();
+        await loadImageAsImageCanvas();
     } catch (e) {
+        alert(e);
         console.log(e);
         return;
     }
@@ -62,19 +63,40 @@ async function imageOrMoodOnChange() {
     elemets.colorsContainer.classList.remove('hidden');
 }
 
-function loadImageAsimageCanvas() {
+function loadImageAsImageCanvas() {
     const file = elemets.imageUpload.files[0];
-    if (!file) throw 'No file selected!';
-    return new Promise((resolve) => {
+    if (!file) {
+        throw 'No file selected!';
+    }
+
+    // Check if the file is an image based on its MIME type
+    // const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp'];
+    // if (!validImageTypes.includes(file.type)) {
+    //     alert('The selected file is not a valid image!');
+    //     throw 'Invalid file type!';
+    // }
+
+    return new Promise((resolve, reject) => {
         let ctx = elemets.imageCanvas.getContext('2d');
-        let img = new Image;
+        let img = new Image();
+
+        // Handle load errors
+        img.onerror = function () {
+            reject('Image file is corrupted or cannot be loaded!');
+        };
+
         img.onload = function () {
-            elemets.imageCanvas.width = img.width;
-            elemets.imageCanvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            URL.revokeObjectURL(img.src);
-            resolve();
-        }
+            try {
+                elemets.imageCanvas.width = img.width;
+                elemets.imageCanvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(img.src);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        };
+
         img.src = URL.createObjectURL(file);
     });
 }
