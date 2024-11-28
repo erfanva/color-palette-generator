@@ -95,15 +95,15 @@ function getMood() {
 }
 
 function setDownloadBtnOnClick() {
-    elemets.downloadBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.imageCanvas));
-    elemets.saveStoryBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.storyCanvas));
+    elemets.downloadBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.imageCanvas, "image"));
+    elemets.saveStoryBtn.addEventListener('click', downloadWhatIsInCanvas(elemets.storyCanvas, "story"));
 }
 
-function downloadWhatIsInCanvas(canvasElement) {
+function downloadWhatIsInCanvas(canvasElement, suffix) {
     return function () {
         const jpegQuality = 1.0; // max
         const mainFileName = getFileNameWithoutPrefix();
-        const fileName = `palette_${mainFileName}.jpg`;
+        const fileName = `palette_${mainFileName}_${suffix}.jpg`;
         const link = document.createElement('a');
         link.download = fileName;
         link.href = canvasElement.toDataURL("image/jpeg", jpegQuality);
