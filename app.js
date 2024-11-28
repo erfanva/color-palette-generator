@@ -63,19 +63,29 @@ async function imageOrMoodOnChange() {
     elemets.colorsContainer.classList.remove('hidden');
 }
 
-function loadImageAsImageCanvas() {
+async function loadImageAsImageCanvas() {
     const file = elemets.imageUpload.files[0];
     if (!file) {
         throw 'No file selected!';
     }
 
-    // Check if the file is an image based on its MIME type
-    // const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp'];
-    // if (!validImageTypes.includes(file.type)) {
-    //     alert('The selected file is not a valid image!');
-    //     throw 'Invalid file type!';
-    // }
+    // Check if the file is a supported image type
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml'];
+    const heicType = 'image/heic';
 
+    // Handle HEIC files
+    if (file.type === heicType || file.type === '') {
+        const convertedFile = await convertHEICtoImage(file);
+        return drawImageToCanvas(convertedFile);
+    } else if (!validImageTypes.includes(file.type)) {
+        throw 'The selected file is not a valid image!';
+    }
+
+    // Handle other valid image types
+    return drawImageToCanvas(file);
+}
+
+function drawImageToCanvas(file) {
     return new Promise((resolve, reject) => {
         let ctx = elemets.imageCanvas.getContext('2d');
         let img = new Image();
@@ -99,6 +109,13 @@ function loadImageAsImageCanvas() {
 
         img.src = URL.createObjectURL(file);
     });
+}
+
+// HEIC to image conversion
+async function convertHEICtoImage(file) {
+    // Use the globally available heic2any library
+    const blob = await heic2any({ blob: file, toType: 'image/jpeg' });
+    return new File([blob], file.name.replace(/\.heic$/, '.jpg'), { type: 'image/jpeg' });
 }
 
 function getColors() {
