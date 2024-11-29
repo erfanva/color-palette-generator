@@ -21,6 +21,12 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <img src="./loading.gif" />
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
         <a href="https://lightiseverything.ir/" target="_blank"><img src="./logo.png" class="logo" /></a>
         <h1>Color is Everything</h1>
@@ -52,11 +58,25 @@
         2024. All rights reserved
     </p>
 
+    <!-- JavaScript -->
     <script src="colorTools.js"></script>
     <script src="colorsExtractor.js"></script>
     <script src="paletteDrawer.js"></script>
     <script src="storyDrawer.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Wait for fonts and other resources to load
+        Promise.all([
+            document.fonts.ready, // Wait for fonts
+            new Promise(resolve => window.onload = resolve) // Wait for onload event
+        ]).then(() => {
+            // Hide the loading screen
+            document.getElementById('loading').classList.add('hidden');
+            // Make the content visible
+            document.querySelector('.container').classList.remove('hidden');
+            document.querySelector('.copyright').classList.remove('hidden');
+        });
+    </script>
 </body>
 
 </html>
