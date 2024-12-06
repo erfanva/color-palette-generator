@@ -1,5 +1,9 @@
 const MOODS = ["COLORFUL", "BRIGHT", "MUTED", "DEEP", "DARK"];
 const SWATCH_COUNT = 5;
+const MAX_WIDTH = 1920; // Maximum width for resized images
+const MAX_HEIGHT = 1080; // Maximum height for resized images
+const TOO_BIG_MSG = 'Your file is too big and it will be resized. Please wait...';
+const RENDERING_MSG = 'Rendering...';
 
 let elemets = {};
 
@@ -29,6 +33,7 @@ function setElements() {
     elemets.saveStoryBtn = saveStoryBtn;
 
     elemets.loading = document.querySelector('#loading');
+    elemets.loadingText = document.querySelector('#loading span');
 }
 
 function fillMoodSelector() {
@@ -46,9 +51,9 @@ function setOnChangeListeners() {
 }
 
 async function imageOrMoodOnChange() {
-    showLoading();
+    showLoading(RENDERING_MSG);
     try {
-        await loadImageAsImageCanvas();
+        await loadImageAsCanvas();
     } catch (e) {
         alert(e);
         hideLoading();
@@ -68,7 +73,7 @@ async function imageOrMoodOnChange() {
     hideLoading();
 }
 
-async function loadImageAsImageCanvas() {
+async function loadImageAsCanvas() {
     const file = elemets.imageUpload.files[0];
     if (!file) {
         throw 'No file selected!';
@@ -81,18 +86,17 @@ async function loadImageAsImageCanvas() {
     // Handle HEIC files
     if (file.type === heicType || file.type === '') {
         const convertedFile = await convertHEICtoImage(file);
-        return drawImageToCanvas(convertedFile);
+        return readFileAndDrawToCanvas(convertedFile);
     } else if (!validImageTypes.includes(file.type)) {
         throw 'The selected file is not a valid image!';
     }
 
     // Handle other valid image types
-    return drawImageToCanvas(file);
+    return readFileAndDrawToCanvas(file);
 }
 
-function drawImageToCanvas(file) {
+function readFileAndDrawToCanvas(file) {
     return new Promise((resolve, reject) => {
-        let ctx = elemets.imageCanvas.getContext('2d');
         let img = new Image();
 
         // Handle load errors
@@ -102,18 +106,39 @@ function drawImageToCanvas(file) {
 
         img.onload = function () {
             try {
-                elemets.imageCanvas.width = img.width;
-                elemets.imageCanvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-                URL.revokeObjectURL(img.src);
+                drawLoadedImageToCanvas(img);
                 resolve();
             } catch (error) {
                 reject(error);
             }
         };
-
         img.src = URL.createObjectURL(file);
     });
+}
+
+function drawLoadedImageToCanvas(img) {
+    let width = img.width;
+    let height = img.height;
+
+    // Resize logic
+    if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+        alert(TOO_BIG_MSG);
+        const aspectRatio = width / height;
+        if (width > height) {
+            width = MAX_WIDTH;
+            height = Math.round(MAX_WIDTH / aspectRatio);
+        } else {
+            height = MAX_HEIGHT;
+            width = Math.round(MAX_HEIGHT * aspectRatio);
+        }
+    }
+
+    // Update canvas dimensions
+    elemets.imageCanvas.width = width;
+    elemets.imageCanvas.height = height;
+    const ctx = elemets.imageCanvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, width, height);
+    URL.revokeObjectURL(img.src);
 }
 
 // HEIC to image conversion
@@ -182,12 +207,14 @@ function fillColorsContainer(hexColors) {
     });
 }
 
-function showLoading() {
+function showLoading(text) {
     elemets.loading.classList.remove('hidden');
+    elemets.loadingText.innerHTML = text || '';
 }
 
 function hideLoading() {
     elemets.loading.classList.add('hidden');
+    elemets.loadingText.innerHTML = '';
 }
 
 documentOnLoad()

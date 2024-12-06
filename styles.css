@@ -144,6 +144,7 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     z-index: 9999;
 }
 
@@ -151,6 +152,10 @@ canvas {
     width: 100px;
     height: auto;
     animation: glow 1s infinite alternate;
+}
+
+#loading span {
+    color: white;
 }
 
 @keyframes glow {
