@@ -27,6 +27,8 @@ function setElements() {
     elemets.downloadBtn = downloadBtn;
     const saveStoryBtn = document.querySelector('#saveStoryBtn');
     elemets.saveStoryBtn = saveStoryBtn;
+
+    elemets.loading = document.querySelector('#loading');
 }
 
 function fillMoodSelector() {
@@ -44,10 +46,12 @@ function setOnChangeListeners() {
 }
 
 async function imageOrMoodOnChange() {
+    showLoading();
     try {
         await loadImageAsImageCanvas();
     } catch (e) {
         alert(e);
+        hideLoading();
         console.log(e);
         return;
     }
@@ -61,6 +65,7 @@ async function imageOrMoodOnChange() {
     elemets.downloadSection.classList.remove('hidden');
     elemets.imageCanvas.parentElement.classList.remove('hidden');
     elemets.colorsContainer.classList.remove('hidden');
+    hideLoading();
 }
 
 async function loadImageAsImageCanvas() {
@@ -175,6 +180,14 @@ function fillColorsContainer(hexColors) {
 
         elemets.colorsContainer.appendChild(section);
     });
+}
+
+function showLoading() {
+    elemets.loading.classList.remove('hidden');
+}
+
+function hideLoading() {
+    elemets.loading.classList.add('hidden');
 }
 
 documentOnLoad()
